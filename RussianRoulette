@@ -1,0 +1,62 @@
+players: DynArray[address, 100] 
+losers: DynArray[address, 100] 
+odds: uint256
+creator : address
+playersTurn : uint256 
+n : DynArray [address, 100]
+
+@external 
+def __init__(contractCreator : address):
+    self.creator = contractCreator
+    self.playersTurn = 0
+
+@internal
+def setOdds(oneInThisMany:uint256):
+    self.odds = oneInThisMany
+
+@internal
+def random () -> uint256:
+   return block.number % self.odds
+
+
+@external
+def isALoser (player: address)-> (bool):
+    for i in self.losers:
+        if i == player:
+            return True
+    return False
+@internal
+def Loser (player: address)-> (bool):
+    for i in self.losers:
+        if i == player:
+            return True
+    return False
+
+@internal
+def isPlaying (player: address)-> (bool):
+
+    for i in self.losers:
+        if i == player:
+            return True
+    return False
+
+@external
+def addPlayer(player:address):
+   assert self.Loser(player)
+   assert self.isPlaying(player)
+   self.players.append (player)
+
+@internal 
+def lose(a: address):
+   
+    self.players = self.n
+    self.losers.append (a)
+@external
+def play ():
+    inty : uint256 = 0  
+    inty = self.random()
+    if (inty ==1):
+        self.lose(self.players[self.playersTurn])
+    else:
+        self.playersTurn = self.playersTurn + 1
+        
